@@ -1,18 +1,14 @@
 package sharedData;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import sharedData.ChromeService;
-import sharedData.EdgeService;
 
-import java.time.Duration;
 import java.util.Objects;
 
 public class SharedData {
 
     private WebDriver driver;
 
-    public void setUpDriver(){
+    public void setUpDriver() {
         String browser = System.getProperty("browser");
         //System.out.println("Browser property value: " + browser);
 
@@ -20,7 +16,7 @@ public class SharedData {
             System.out.println("No browser specified. Defaulting to Chrome.");
         }
 
-        switch (Objects.requireNonNull(browser)){
+        switch (Objects.requireNonNull(browser)) {
             case "chrome":
                 ChromeService chromeService = new ChromeService();
                 chromeService.openBrowser();
@@ -40,8 +36,7 @@ public class SharedData {
         return driver;
     }
 
-    public void quitDriver()
-    {
+    public void quitDriver() {
         driver.quit();
     }
 }

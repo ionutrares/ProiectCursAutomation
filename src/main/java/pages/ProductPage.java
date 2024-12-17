@@ -23,8 +23,18 @@ public class ProductPage extends BasePage {
     @FindBy(className = "base")
     private WebElement pageTitle;
 
-    @FindBy(css = "div[data-bind*='prepareMessageForHtml']")
-    private WebElement addToCartMessage;
+    @FindBy(css = ".message-success > div:nth-child(1)")
+    private WebElement successAddMessage;
+
+    @FindBy(css = ".message-error > div:nth-child(1)")
+    private WebElement errorAddMessage;
+
+    @FindBy(className = "counter-number")
+    private WebElement cartCounter;
+
+    @FindBy(css = "div.value:nth-child(2)")
+    private WebElement sku;
+
 
     public ProductPage(WebDriver driver) {
         super(driver);
@@ -49,15 +59,37 @@ public class ProductPage extends BasePage {
 
     }
 
+    public String checkSkuNumber(){
+        waitMethods.waitVisibleElement(sku);
+        return elementMethods.getTextElement(sku);
+    }
+
     public void clickAddToCart() {
         elementMethods.clickElement(addToCartButton);
     }
 
     public boolean successfullyAddedToCartMessage(){
-        String displayedText = Constants.SUCCESSFULL_ADD_TO_CART_MESSAGE;
-        waitMethods.waitVisibleText(addToCartMessage, displayedText);
-        String actualText = elementMethods.getTextElement(addToCartMessage);
-        waitMethods.waitVisibleText(addToCartMessage, displayedText);
+        String displayedText = Constants.SUCCESSFUL_ADD_TO_CART_MESSAGE;
+        waitMethods.waitVisibleText(successAddMessage, displayedText);
+        String actualText = elementMethods.getTextElement(successAddMessage);
+        waitMethods.waitVisibleText(successAddMessage, displayedText);
         return actualText.equals(displayedText);
+    }
+
+    public boolean failedAddToCartMessage(){
+        String displayedText = Constants.FAILED_ADD_TO_CART_MESSAGE;
+        waitMethods.waitVisibleText(errorAddMessage, displayedText);
+        String actualText = elementMethods.getTextElement(errorAddMessage);
+        waitMethods.waitVisibleText(errorAddMessage, displayedText);
+        return actualText.equals(displayedText);
+    }
+
+    public int getCartQuantity(){
+       return elementMethods.getIntElement(cartCounter);
+    }
+
+    public boolean cartIsEmpty(){
+        int cartQty = elementMethods.getIntElement(cartCounter);
+        return cartQty == 0;
     }
 }

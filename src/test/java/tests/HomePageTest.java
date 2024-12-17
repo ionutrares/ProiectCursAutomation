@@ -18,9 +18,7 @@ public class HomePageTest extends Hooks {
 
     @Test
     public void createAccountLinkIsDisplayedTest(){
-//        DriverHelper.INSTANCE.startFirefoxDriver(Constants.HOME_PAGE_URL);
-//        HomePage homePage = new HomePage();
-//        Assert.assertTrue(homePage.isCreateAccountLinkDisplayed(), "The Create Account Link is not displayed");
+        homePage = new HomePage(getDriver());
+        Assert.assertTrue(homePage.isCreateAccountLinkDisplayed(),"Sign in Link is not displayed!");
     }
-
 }

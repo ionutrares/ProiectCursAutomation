@@ -11,7 +11,6 @@ import sharedData.Hooks;
 public class LoginTest extends Hooks {
     HomePage homePage;
     LoginPage loginPage;
-    ProductPage productPage;
 
     @Test
     public void signInPageRedirectTest(){

@@ -23,7 +23,9 @@ public class LoginPage extends BasePage {
     }
 
     public boolean isLoginTitleDisplayed() {
-        return elementMethods.isDisplayedElement(loginTitle);
+        String actualText = elementMethods.getTextElement(loginTitle);
+        waitMethods.waitVisibleElement(loginTitle);
+        return actualText.equals("Customer Login");
     }
 
     public void fillLoginForm(String email, String password) {

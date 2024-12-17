@@ -21,10 +21,9 @@ public class HomePage extends BasePage {
         return elementMethods.isDisplayedElement(signInLink);
     }
 
-//    public boolean isCreateAccountLinkDisplayed() {
-//        WebElement createAccountLinkElem = firefoxDriver.findElement(createAccountLink);
-//        return createAccountLinkElem.isDisplayed();
-//    }
+    public boolean isCreateAccountLinkDisplayed() {
+        return elementMethods.isDisplayedElement(createAccountLink);
+    }
 
     public void clickOnSignInLink() {
         elementMethods.clickElement(signInLink);
@@ -36,9 +35,9 @@ public class HomePage extends BasePage {
 
     public boolean checkLoginState() {
         String welcomeText = Constants.WELCOME_MESSAGE;
-        elementMethods.waitVisibleText(loggedInName, welcomeText);
+        waitMethods.waitVisibleText(loggedInName, welcomeText);
         String actualText = elementMethods.getTextElement(loggedInName);
-        elementMethods.waitVisibleText(loggedInName, welcomeText);
+        waitMethods.waitVisibleText(loggedInName, welcomeText);
         return actualText.equals(welcomeText);
     }
 }

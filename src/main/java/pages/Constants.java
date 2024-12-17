@@ -11,6 +11,7 @@ Constants {
 
     public static final String PRODUCT_URL = "https://magento2-demo.scandiweb.com/argus-all-weather-tank.html";
     public static final String PRODUCT_SKU = "MT07";
+    public static final String PRODUCT_NAME = "Argus All-Weather Tank";
     public static final String SUCCESSFULL_ADD_TO_CART_MESSAGE = "You added Argus All-Weather Tank to your shopping cart.";
 
     public static final String WELCOME_MESSAGE = "Welcome, Veronica Costello!";

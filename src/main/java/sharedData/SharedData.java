@@ -14,7 +14,7 @@ public class SharedData {
 
     public void setUpDriver(){
         String browser = System.getProperty("browser");
-        System.out.println("Browser property value: " + browser);
+        //System.out.println("Browser property value: " + browser);
 
         if (browser == null || browser.isEmpty()) {
             System.out.println("No browser specified. Defaulting to Chrome.");

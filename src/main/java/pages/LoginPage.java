@@ -1,36 +1,38 @@
 package pages;
 
-
-import helpers.DriverHelper;
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.FindBy;
 
-public class LoginPage {
-    private final FirefoxDriver firefoxDriver = DriverHelper.INSTANCE.getFirefoxDriver();
-    private final static By loginTitle = By.className("base");
+public class LoginPage extends BasePage {
 
-    private final static By emailInputField = By.id("email");
+    @FindBy(className = "base")
+    private WebElement loginTitle;
 
-    private final static By passwordField = By.cssSelector("div.field:nth-child(3) > div:nth-child(2) > input:nth-child(1)");
+    @FindBy(id = "email")
+    private WebElement emailInputField;
 
-    private final static By signInButton = By.cssSelector("button.login");
+    @FindBy(css = "div.field:nth-child(3) > div:nth-child(2) > input:nth-child(1)")
+    private WebElement passwordField;
 
-    public boolean isLoginTitleDisplayed(){
-        WebElement loginTitleElem = firefoxDriver.findElement(loginTitle);
-        return loginTitleElem.isDisplayed();
+    @FindBy(css = "button.login")
+    private WebElement signInButton;
+
+    public LoginPage(WebDriver driver) {
+        super(driver);
     }
 
-    public void fillLoginForm(String email, String password){
-        WebElement emailElem = firefoxDriver.findElement(emailInputField);
-        WebElement passwordElem = firefoxDriver.findElement(passwordField);
-        emailElem.sendKeys(email);
-        passwordElem.sendKeys(password);
+    public boolean isLoginTitleDisplayed() {
+        return elementMethods.isDisplayedElement(loginTitle);
     }
 
-    public void clickOnSignInButton(){
-        WebElement signInButtonElem = firefoxDriver.findElement(signInButton);
-        signInButtonElem.click();
+    public void fillLoginForm(String email, String password) {
+        elementMethods.fillElement(emailInputField, email);
+        elementMethods.fillElement(passwordField, password);
+    }
+
+    public void clickOnSignInButton() {
+        elementMethods.clickElement(signInButton);
     }
 
 }

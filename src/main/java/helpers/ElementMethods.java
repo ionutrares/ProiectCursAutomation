@@ -2,6 +2,7 @@ package helpers;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import pages.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,4 +59,16 @@ public class ElementMethods {
     public String getTextElement(WebElement element) {
         return element.getText();
     }
+
+    public int getIntElement(WebElement element){
+        waitMethods.waitVisibleElement(element);
+        try {
+            // Use getText() to retrieve the element's text and parse it to int
+            return Integer.parseInt(element.getText().trim());
+        } catch (NumberFormatException e) {
+//            System.out.println("Unable to parse the text to an integer: " + e.getMessage());
+            return 0;
+        }
+    }
+
 }

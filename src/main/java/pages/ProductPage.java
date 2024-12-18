@@ -1,73 +1,95 @@
 package pages;
 
-
-import dev.failsafe.internal.util.Assert;
-import helpers.DriverHelper;
-import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.FindBy;
 
-import java.time.Duration;
 import java.util.List;
 
+public class ProductPage extends BasePage {
 
-public class ProductPage {
+    @FindBy(css = ".swatch-option.text")
+    private List<WebElement> sizeList;
 
-    private final FirefoxDriver firefoxDriver = DriverHelper.INSTANCE.getFirefoxDriver();
+    @FindBy(css = ".swatch-option.color")
+    private List<WebElement> colorList;
 
-    private final static By sizeList = By.cssSelector(".swatch-option.text");
-    private final static By colorList = By.cssSelector(".swatch-option.color");
-    private final static By quantityInputField = By.id("qty");
-    private final static By addToCartButton = By.id("product-addtocart-button");
-    private final static By pageTitle = By.className("base");
-    private final static By message = By.cssSelector("div[data-bind*='prepareMessageForHtml']");
+    @FindBy(id = "qty")
+    private WebElement quantityInputField;
 
-    public boolean isProductTitleDisplayed(){
-        WebElement menTitleElem = firefoxDriver.findElement(pageTitle);
-        return menTitleElem.isDisplayed();
+    @FindBy(id = "product-addtocart-button")
+    private WebElement addToCartButton;
+
+    @FindBy(className = "base")
+    private WebElement pageTitle;
+
+    @FindBy(css = ".message-success > div:nth-child(1)")
+    private WebElement successAddMessage;
+
+    @FindBy(css = ".message-error > div:nth-child(1)")
+    private WebElement errorAddMessage;
+
+    @FindBy(className = "counter-number")
+    private WebElement cartCounter;
+
+    @FindBy(css = "div.value:nth-child(2)")
+    private WebElement sku;
+
+
+    public ProductPage(WebDriver driver) {
+        super(driver);
     }
 
-    public void chooseSize(){
-        WebDriverWait wait = new WebDriverWait(firefoxDriver, Duration.ofSeconds(10));
-        List<WebElement> sizeOptions = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(sizeList));
-        for (WebElement size: sizeOptions){
-            wait.until(ExpectedConditions.elementToBeClickable(size));
-            if (!size.getAttribute("aria-checked").equals("true")){
-                size.click();
-                break;
-            }
-        }
-    }
-    public void chooseColor(){
-        List<WebElement> colorOptions = firefoxDriver.findElements(colorList);
-        for (WebElement color : colorOptions) {
-            if (!color.getAttribute("aria-checked").equals("true")){
-                color.click();
-                break;
-            }
-        }
+    public boolean isProductTitleDisplayed() {
+        String actualText = elementMethods.getTextElement(pageTitle);
+        waitMethods.waitVisibleElement(pageTitle);
+        return actualText.equals(Constants.PRODUCT_NAME);
     }
 
-    public void setQuantity(Integer value){
-        WebElement qtyElem = firefoxDriver.findElement(quantityInputField);
-        qtyElem.clear();
-        qtyElem.sendKeys(value.toString());
+    public void chooseSize() {
+        elementMethods.clickElementFromList(sizeList);
     }
-    public void clickAddToCart(){
-        WebDriverWait wait = new WebDriverWait(firefoxDriver, Duration.ofSeconds(10));
-        WebElement addToCartElem = wait.until(ExpectedConditions.elementToBeClickable(addToCartButton));
-        addToCartElem.click();
+
+    public void chooseColor() {
+        elementMethods.clickElementFromList(colorList);
+    }
+
+    public void setQuantity(Integer value) {
+        elementMethods.clearInputElement(quantityInputField, value);
+
+    }
+
+    public String checkSkuNumber(){
+        waitMethods.waitVisibleElement(sku);
+        return elementMethods.getTextElement(sku);
+    }
+
+    public void clickAddToCart() {
+        elementMethods.clickElement(addToCartButton);
     }
 
     public boolean successfullyAddedToCartMessage(){
-        WebDriverWait wait = new WebDriverWait(firefoxDriver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(message, "You added"));
-
-        WebElement messageElem = firefoxDriver.findElement(message);
-        String displayedText = Constants.SUCCESSFULL_ADD_TO_CART_MESSAGE;
-        String actualText = messageElem.getText();
+        String displayedText = Constants.SUCCESSFUL_ADD_TO_CART_MESSAGE;
+        waitMethods.waitVisibleText(successAddMessage, displayedText);
+        String actualText = elementMethods.getTextElement(successAddMessage);
+        waitMethods.waitVisibleText(successAddMessage, displayedText);
         return actualText.equals(displayedText);
+    }
+
+    public boolean failedAddToCartMessage(){
+        String displayedText = Constants.FAILED_ADD_TO_CART_MESSAGE;
+        waitMethods.waitVisibleText(errorAddMessage, displayedText);
+        String actualText = elementMethods.getTextElement(errorAddMessage);
+        waitMethods.waitVisibleText(errorAddMessage, displayedText);
+        return actualText.equals(displayedText);
+    }
+
+    public int getCartQuantity(){
+       return elementMethods.getIntElement(cartCounter);
+    }
+
+    public boolean cartIsEmpty(){
+        int cartQty = elementMethods.getIntElement(cartCounter);
+        return cartQty == 0;
     }
 }

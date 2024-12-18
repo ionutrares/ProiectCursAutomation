@@ -8,7 +8,7 @@ public class HomePage extends BasePage {
 
     @FindBy(css = "ul.header:nth-child(3) > li:nth-child(2) > a:nth-child(1)")
     private WebElement signInLink;
-    @FindBy(id = "idcIstrCju")
+    @FindBy(id = "idDSGazqV0")
     private WebElement createAccountLink;
     @FindBy(css = "ul.header:nth-child(3) > li:nth-child(1) > span:nth-child(1)")
     private WebElement loggedInName;

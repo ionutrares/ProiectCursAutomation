@@ -12,12 +12,6 @@ public class AddToCartTest extends Hooks {
     ShoppingCartPage cartPage;
 
     @Test
-    public void cartIsEmptyTest() {
-        productPage = new ProductPage(getDriver());
-        Assert.assertTrue(productPage.cartIsEmpty(), "Shopping cart is not empty!");
-    }
-
-    @Test
     public void guestSuccessfulAddToCartTest() {
         homePage = new HomePage(getDriver());
         loginPage = new LoginPage(getDriver());

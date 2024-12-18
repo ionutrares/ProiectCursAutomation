@@ -9,12 +9,10 @@ import sharedData.Hooks;
 public class HomePageTest extends Hooks {
 
     HomePage homePage;
-    ProductPage productPage;
 
     @Test
     public void signInLinkIsDisplayedTest() {
         homePage = new HomePage(getDriver());
-        productPage = new ProductPage(getDriver());
         Assert.assertTrue(homePage.isSignInLinkDisplayed(), "Sign in Link is not displayed!");
     }
 
